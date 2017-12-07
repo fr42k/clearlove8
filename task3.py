@@ -58,7 +58,7 @@ def solr_search(f,sentence):
 			print("The doc_id is '{0}'.".format(result['doc_id']))
 			print("The sent_id is '{0}'.".format(result['sent_id']))
 			print("The %s are "%(kind),result[kind])
-	if f == '1' '2' '3' '5' '6' '7' '8':
+	if f in {'1', '2', '3', '5', '6', '7', '8'}:
 		if f == '1':
 			s = func(sentence)
 		else:
@@ -84,7 +84,7 @@ def print_info():
 	print('9. heads; 10. phrases;')
 	i = input('Input:')
 	print("=" * 80)
-	return i
+	return str(i)
 	
 if __name__ == "__main__":
 	text = 'Mounting trade friction between the U.S. And Japan has raised fears among many of Asia\'s exporting nations that the row could inflict far-reaching economic damage, businessmen and officials said.'		
