@@ -46,19 +46,19 @@ def solr_search(f,sentence):
 				print("The %s are "%(kind),result[kind])	
 		except:
 			print('.')	
-		if f == '4':
-			text_tokens = normalize(sentence)
-			s = func(text_tokens)
-			str0 = ''
-			for word in s:			
-				str0 = str0 + str(word) + ','
-			results = solr.search('%s:%s' %(kind,str0))
-			print("Saw {0} result(s).".format(len(results)))
-			for result in results:
-				print("The doc_id is '{0}'.".format(result['doc_id']))
-				print("The sent_id is '{0}'.".format(result['sent_id']))
-				print("The %s are "%(kind),result[kind])
-	else:
+	if f == '4':
+		text_tokens = normalize(sentence)
+		s = func(text_tokens)
+		str0 = ''
+		for word in s:			
+			str0 = str0 + str(word) + ','
+		results = solr.search('%s:%s' %(kind,str0))
+		print("Saw {0} result(s).".format(len(results)))
+		for result in results:
+			print("The doc_id is '{0}'.".format(result['doc_id']))
+			print("The sent_id is '{0}'.".format(result['sent_id']))
+			print("The %s are "%(kind),result[kind])
+	if f == '1' '2' '3' '5' '6' '7' '8':
 		if f == '1':
 			s = func(sentence)
 		else:
@@ -84,10 +84,10 @@ def print_info():
 	print('9. heads; 10. phrases;')
 	i = input('Input:')
 	print("=" * 80)
-	return str(i)
+	return i
 	
 if __name__ == "__main__":
-	text = 'Mounting trade friction between the U.S. And Japan has raised fears among many of Asia\'s exporting nations that the row could inflict far-reaching economic damage, businessmen and officials said.'
+	text = 'Mounting trade friction between the U.S. And Japan has raised fears among many of Asia\'s exporting nations that the row could inflict far-reaching economic damage, businessmen and officials said.'		
 	while True:
 		print("#" * 80)
 		solr_search(print_info(), text)
