@@ -7,7 +7,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
-solr = pysolr.Solr('http://localhost:8983/solr/news0', timeout=10)
+solr = pysolr.Solr('http://localhost:8983/solr/news0', timeout=100)
 stopwords = stopwords.words('english')
 switcher = {
 	'1': 'tokens', '2': 'lem_tokens', '3': 'stem_tokens', '4': 'pos_tag_tokens',
@@ -84,7 +84,7 @@ def print_info():
 	print('9. heads; 10. phrases;')
 	i = input('Input:')
 	print("=" * 80)
-	return str(i)
+	return i
 	
 if __name__ == "__main__":
 	text = 'Mounting trade friction between the U.S. And Japan has raised fears among many of Asia\'s exporting nations that the row could inflict far-reaching economic damage, businessmen and officials said.'		
