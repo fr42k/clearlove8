@@ -7,7 +7,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
-solr = pysolr.Solr('http://localhost:8983/solr/news0', timeout=100)
+solr = pysolr.Solr('http://localhost:8983/solr/news8', timeout=100)
 stopwords = stopwords.words('english')
 switcher = {
 	'1': 'tokens', '2': 'lem_tokens', '3': 'stem_tokens', '4': 'pos_tag_tokens',
@@ -30,6 +30,7 @@ def solr_search(f,sentence):
 		for result in results:
 			print("The doc_id is '{0}'.".format(result['doc_id']))
 			print("The sent_id is '{0}'.".format(result['sent_id']))
+			print("The sentence is '{0}'.".format(result['sentence']))
 			print("The %s are "%(kind),result[kind])
 	if f == '10':
 		try:
@@ -43,6 +44,8 @@ def solr_search(f,sentence):
 			for result in results:
 				print("The doc_id is '{0}'.".format(result['doc_id']))
 				print("The sent_id is '{0}'.".format(result['sent_id']))
+				print("The sentence is '{0}'.".format(result['sentence']))
+				
 				print("The %s are "%(kind),result[kind])	
 		except:
 			print('.')	
@@ -57,6 +60,7 @@ def solr_search(f,sentence):
 		for result in results:
 			print("The doc_id is '{0}'.".format(result['doc_id']))
 			print("The sent_id is '{0}'.".format(result['sent_id']))
+			print("The sentence is '{0}'.".format(result['sentence']))
 			print("The %s are "%(kind),result[kind])
 	if f in {'1', '2', '3', '5', '6', '7', '8'}:
 		if f == '1':
@@ -74,6 +78,7 @@ def solr_search(f,sentence):
 		for result in results:
 			print("The doc_id is '{0}'.".format(result['doc_id']))
 			print("The sent_id is '{0}'.".format(result['sent_id']))
+			print("The sentence is '{0}'.".format(result['sentence']))
 			print("The %s are "%(kind),result[kind])
 
 
