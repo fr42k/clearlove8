@@ -60,11 +60,14 @@ def solr_search(f,sentence):
 			p_str = '%s:%s' %(kind,str0)
 		else:
 			p_str = ''
-			print('s% is null.' %(kind))
+			print('%s is null.' %(kind))
 			f0 = f[i]
 		all_str = all_str + ' ' + p_str 
 	results = solr.search(all_str)
+	print("The query is:",sentence)
+	print("Index:",all_str)
 	print("Saw {0} result(s).".format(len(results)))
+	print("-" * 80)
 	for result in results:
 		print("The doc_id is '{0}'.".format(result['doc_id']))
 		print("The sent_id is '{0}'.".format(result['sent_id']))
@@ -75,6 +78,7 @@ def solr_search(f,sentence):
 				print("The %s are "%(kind),result[kind])
 			except:
 				print("The %s are null."%(kind))
+		print("-" * 80)
 
 
 def print_info():
@@ -91,7 +95,7 @@ def print_info():
 	return ls
 	
 if __name__ == "__main__":
-	text = 'America trades with Japan.'		
+	text = 'Robusta coffee with good quality are traded for prompt delivery.'		
 	while True:
 		print("#" * 80)
 		solr_search(print_info(), text)
