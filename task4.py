@@ -7,7 +7,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
-solr = pysolr.Solr('http://localhost:8983/solr/news0', timeout=10)
+solr = pysolr.Solr('http://localhost:8983/solr/news8', timeout=10)
 stopwords = stopwords.words('english')
 switcher = {
 	'1': 'tokens', '2': 'lem_tokens', '3': 'stem_tokens', '4': 'pos_tag_tokens',
@@ -28,7 +28,7 @@ def solr_search(f,sentence):
 		str0 = ''
 		if f[i] == '9':
 			s = func(sentence)
-			str0 = s
+			str0 = s[0]
 		if f[i] == '10':
 			try:
 				s = func(sentence)
@@ -56,7 +56,11 @@ def solr_search(f,sentence):
 					if word.isalpha():
 						if word not in stopwords:
 							str0 = str0 + word + ','
-		p_str = '%s:%s' %(kind,str0)
+		if str0 != '':
+			p_str = '%s:%s' %(kind,str0)
+		else:
+			p_str = ''
+			print('s% is null.' %(kind))
 		all_str = all_str + ' ' + p_str 
 	results = solr.search(all_str)
 	print("Saw {0} result(s).".format(len(results)))
