@@ -59,8 +59,11 @@ def solr_search(f,sentence):
 				print("The sent_id is '{0}'.".format(result['sent_id']))
 				print("The %s are "%(kind),result[kind])
 	else:
-		text_tokens = normalize(sentence)
-		s = func(text_tokens)
+		if f == '1':
+			s = func(sentence)
+		else:
+			text_tokens = normalize(sentence)
+			s = func(text_tokens)
 		str0 = ''
 		for word in s:
 			if word.isalpha():
