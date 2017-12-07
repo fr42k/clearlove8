@@ -23,15 +23,9 @@ func_switcher = {
 def solr_search(f,sentence):
 	kind = switcher.get(f)
 	func = func_switcher.get(f)
+	str0 = ''
 	if f == '9':
-		s = func(sentence)
-		results = solr.search('%s:%s' %(kind,str(s[0])))
-		print("Saw {0} result(s).".format(len(results)))
-		for result in results:
-			print("The doc_id is '{0}'.".format(result['doc_id']))
-			print("The sent_id is '{0}'.".format(result['sent_id']))
-			print("The sentence is '{0}'.".format(result['sentence']))
-			print("The %s are "%(kind),result[kind])
+		str0 = func(sentence)
 	if f == '10':
 		try:
 			s = func(sentence)
@@ -39,14 +33,6 @@ def solr_search(f,sentence):
 			for word in s:
 				if str(word) != '()':			
 					str0 = str0 + str(word) + ','
-			results = solr.search('%s:%s' %(kind,str0))
-			print("Saw {0} result(s).".format(len(results)))
-			for result in results:
-				print("The doc_id is '{0}'.".format(result['doc_id']))
-				print("The sent_id is '{0}'.".format(result['sent_id']))
-				print("The sentence is '{0}'.".format(result['sentence']))
-				
-				print("The %s are "%(kind),result[kind])	
 		except:
 			print('.')	
 	if f == '4':
@@ -55,13 +41,6 @@ def solr_search(f,sentence):
 		str0 = ''
 		for word in s:			
 			str0 = str0 + str(word) + ','
-		results = solr.search('%s:%s' %(kind,str0))
-		print("Saw {0} result(s).".format(len(results)))
-		for result in results:
-			print("The doc_id is '{0}'.".format(result['doc_id']))
-			print("The sent_id is '{0}'.".format(result['sent_id']))
-			print("The sentence is '{0}'.".format(result['sentence']))
-			print("The %s are "%(kind),result[kind])
 	if f in {'1', '2', '3', '5', '6', '7', '8'}:
 		if f == '1':
 			s = func(sentence)
@@ -73,6 +52,7 @@ def solr_search(f,sentence):
 			if word.isalpha():
 				if word not in stopwords:
 					str0 = str0 + word + ','
+	if str0 != '':
 		results = solr.search('%s:%s' %(kind,str0))
 		print("Saw {0} result(s).".format(len(results)))
 		for result in results:
@@ -80,6 +60,8 @@ def solr_search(f,sentence):
 			print("The sent_id is '{0}'.".format(result['sent_id']))
 			print("The sentence is '{0}'.".format(result['sentence']))
 			print("The %s are "%(kind),result[kind])
+	else:
+		print("Saw 0 result(s).")
 
 
 def print_info():
