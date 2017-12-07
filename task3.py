@@ -7,7 +7,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
-solr = pysolr.Solr('http://localhost:8983/solr/news8', timeout=100)
+solr = pysolr.Solr('http://localhost:8983/solr/news8', timeout=10)
 stopwords = stopwords.words('english')
 switcher = {
 	'1': 'tokens', '2': 'lem_tokens', '3': 'stem_tokens', '4': 'pos_tag_tokens',
@@ -21,60 +21,77 @@ func_switcher = {
 }
 
 def solr_search(f,sentence):
-	kind = switcher.get(f)
-	func = func_switcher.get(f)
-	str0 = ''
-	if f == '9':
-		str0 = func(sentence)
-	if f == '10':
-		try:
-			s = func(sentence)
-			str0 = ''
-			for word in s:
-				if str(word) != '()':			
-					str0 = str0 + str(word) + ','
-		except:
-			print('.')	
-	if f == '4':
-		text_tokens = normalize(sentence)
-		s = func(text_tokens)
+	all_str = ''
+	for i in range(len(f)):
+		kind = switcher.get(f[i])
+		func = func_switcher.get(f[i])
 		str0 = ''
-		for word in s:			
-			str0 = str0 + str(word) + ','
-	if f in {'1', '2', '3', '5', '6', '7', '8'}:
-		if f == '1':
+		if f[i] == '9':
 			s = func(sentence)
-		else:
+			str0 = s[0]
+		if f[i] == '10':
+			try:
+				s = func(sentence)
+				for word in s:
+					if str(word) != '()':			
+						str0 = str0 + str(word) + ','
+			except:
+				print('.')	
+		if f[i] == '4':
 			text_tokens = normalize(sentence)
 			s = func(text_tokens)
-		str0 = ''
-		for word in s:
-			if word.isalpha():
-				if word not in stopwords:
-					str0 = str0 + word + ','
-	if str0 != '':
-		results = solr.search('%s:%s' %(kind,str0))
-		print("Saw {0} result(s).".format(len(results)))
-		for result in results:
-			print("The doc_id is '{0}'.".format(result['doc_id']))
-			print("The sent_id is '{0}'.".format(result['sent_id']))
-			print("The sentence is '{0}'.".format(result['sentence']))
-			print("The %s are "%(kind),result[kind])
-	else:
-		print("Saw 0 result(s).")
+			for word in s:			
+				str0 = str0 + str(word) + ','
+		if f[i] in {'1', '2', '3', '5', '6', '7', '8'}:
+			if f[i] == '1':
+				s = func(sentence)
+				for word in s:
+					if word.isalpha():
+						if word not in stopwords:
+							str0 = str0 + word + ','
+			else:
+				text_tokens = normalize(sentence)
+				s = func(text_tokens)
+				for word in s:
+					if word.isalpha():
+						if word not in stopwords:
+							str0 = str0 + word + ','
+		if str0 != '':
+			p_str = '%s:%s' %(kind,str0)
+		else:
+			p_str = ''
+			print('s% is null.' %(kind))
+			f0 = f[i]
+		all_str = all_str + ' ' + p_str 
+	results = solr.search(all_str)
+	print("Saw {0} result(s).".format(len(results)))
+	for result in results:
+		print("The doc_id is '{0}'.".format(result['doc_id']))
+		print("The sent_id is '{0}'.".format(result['sent_id']))
+		print("The sentence is '{0}'.".format(result['sentence']))
+		for j in range(len(f)):
+			kind = switcher.get(f[j])
+			try:
+				print("The %s are "%(kind),result[kind])
+			except:
+				print("The %s are null."%(kind))
 
 
 def print_info():
+	ls = []
 	print('Please choose a kind of search index:')
 	print('1. tokens; 2. lem_tokens; 3. stem_tokens; 4. pos_tag_tokens;')
 	print('5. hypernyms; 6. hyponyms; 7. meronyms; 8. holonyms;')
 	print('9. heads; 10. phrases;')
-	i = input('Input:')
+	m = input('How many fields would you like to combine:')
+	for i in range(int(m)):
+		i = input('Input:')
+		ls.append(i)
 	print("=" * 80)
-	return i
+	return ls
 	
 if __name__ == "__main__":
-	text = 'Mounting trade friction between the U.S. And Japan has raised fears among many of Asia\'s exporting nations that the row could inflict far-reaching economic damage, businessmen and officials said.'		
+	text = 'America trades with Japan.'		
 	while True:
 		print("#" * 80)
 		solr_search(print_info(), text)

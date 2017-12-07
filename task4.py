@@ -69,12 +69,6 @@ def solr_search(f,sentence):
 		print("The doc_id is '{0}'.".format(result['doc_id']))
 		print("The sent_id is '{0}'.".format(result['sent_id']))
 		print("The sentence is '{0}'.".format(result['sentence']))
-		for j in range(len(f)):
-			kind = switcher.get(f[j])
-			try:
-				print("The %s are "%(kind),result[kind])
-			except:
-				print("The %s are null."%(kind))
 
 
 def print_info():
