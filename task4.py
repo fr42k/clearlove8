@@ -61,6 +61,7 @@ def solr_search(f,sentence):
 		else:
 			p_str = ''
 			print('s% is null.' %(kind))
+			f0 = f[i]
 		all_str = all_str + ' ' + p_str 
 	results = solr.search(all_str)
 	print("Saw {0} result(s).".format(len(results)))
@@ -70,7 +71,11 @@ def solr_search(f,sentence):
 		print("The sentence is '{0}'.".format(result['sentence']))
 		for j in range(len(f)):
 			kind = switcher.get(f[j])
-			print("The %s are "%(kind),result[kind])
+			try:
+				print("The %s are "%(kind),result[kind])
+			except:
+				print("The %s are null."%(kind))
+
 
 def print_info():
 	ls = []
@@ -86,7 +91,7 @@ def print_info():
 	return ls
 	
 if __name__ == "__main__":
-	text = 'Mounting trade friction between the U.S. And Japan has raised fears among many of Asia\'s exporting nations that the row could inflict far-reaching economic damage, businessmen and officials said.'		
+	text = 'America trades with Japan.'		
 	while True:
 		print("#" * 80)
 		solr_search(print_info(), text)
