@@ -83,10 +83,14 @@ def print_info():
 	print('5. hypernyms; 6. hyponyms; 7. meronyms; 8. holonyms;')
 	print('9. heads; 10. phrases;')
 	i = input('Input:')
-	return i
+	print("=" * 80)
+	return str(i)
 	
+if __name__ == "__main__":
+	text = 'Mounting trade friction between the U.S. And Japan has raised fears among many of Asia\'s exporting nations that the row could inflict far-reaching economic damage, businessmen and officials said.'
+	while True:
+		print("#" * 80)
+		solr_search(print_info(), text)
 
-text = 'Mounting trade friction between the U.S. And Japan has raised fears among many of Asia\'s exporting nations that the row could inflict far-reaching economic damage, businessmen and officials said.'		
-solr_search(print_info(),text)
 
 
